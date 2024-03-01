@@ -34,27 +34,31 @@ export default function BookLookup() {
             items: [
                 {
                     name: "To Read",
-                    icon: <BookmarkPlus />
+                    icon: <BookmarkPlus strokeWidth={1} />
                 },
                 {
                     name: "Reading",
-                    icon: <Bookmark />
+                    icon: <Bookmark strokeWidth={1} />
                 },
                 {
                     name: "Read",
-                    icon: <BookmarkCheck />
+                    icon: <BookmarkCheck strokeWidth={1} />
                 },
                 {
                     name: "Abandoned",
-                    icon: <BookmarkX />
+                    icon: <BookmarkX strokeWidth={1} />
                 }
             ]
         },
         {
             name: "Bookshelf",
             items: [
-                "Fiction",
-                "Non-Fiction"
+                {
+                    name: "Fiction"
+                },
+                {
+                    name: "Non Fiction"
+                }
             ]
         }
     ]
