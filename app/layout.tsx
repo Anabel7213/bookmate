@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Josefin_Slab } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"] });
+const josefin = Josefin_Slab({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={josefin.className}>
+        <Link href="/">
+          <Image className="p-4" src="/logo.svg" width={200} height={200} alt="Logo" />
+        </Link>
+        {children}
+      </body>
     </html>
   );
 }
