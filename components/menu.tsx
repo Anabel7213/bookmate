@@ -1,8 +1,8 @@
 "use client"
 
-import { ArrowUpDown, BookCopy, SlidersHorizontal } from "lucide-react"
+import { ArrowUpDown, BookCopy, MoreHorizontal, SlidersHorizontal } from "lucide-react"
 
-export default function Menu() {
+export default function Menu({onMenuClick}: any) {
     const menuItems = [
         {
             icon: <BookCopy size={20} strokeWidth={1} />,
@@ -19,10 +19,13 @@ export default function Menu() {
     ]
     return (
         <>
-        <div className="flex items-center">
+        <div className="hidden md:flex items-center">
             {menuItems.map((item, i) => (
                 <button key={i} onClick={item.action} className={`p-2 hover:bg-brown/10 rounded-[4px] transition-all`}>{item.icon}</button>
             ))}
+        </div>
+        <div onClick={onMenuClick} className="md:hidden">
+            <MoreHorizontal strokeWidth={1}/>
         </div>
         </>
     )
