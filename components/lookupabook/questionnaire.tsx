@@ -50,7 +50,7 @@ export default function Questionnaire({onClose, onSubmitQuestionnaire}: any) {
         }
     ]
     const moods = [
-        "Captivating", "Informative", "Inspiring", "Adventurous", "Hilarious", "Challenging", "Life-changing", "Saddening", "Relaxing", "Mysterious", "Boring", "Emotional", "Mundane", "Tense", "Dark"
+        "Captivating", "Informative", "Inspiring", "Adventurous", "Hilarious", "Challenging", "Tense", "Saddening", "Relaxing", "Dark", "Boring", "Emotional"
     ]
     const ranges = [
         {
