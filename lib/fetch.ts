@@ -5,6 +5,7 @@ import { useState } from "react"
 
 interface Data {
     key: string
+    title: string
     subtitle: string
     first_sentence: string
     author_name: string[]

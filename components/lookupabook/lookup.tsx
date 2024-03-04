@@ -10,7 +10,7 @@ import {
   CalendarDays,
   NotepadText,
   PenLine,
-  PlusCircleIcon,
+  SaveIcon,
   ScanBarcode,
   Search,
   Star,
@@ -23,6 +23,16 @@ import { useState } from "react";
 import Questionnaire from "./questionnaire";
 import { useSearch } from "@/lib/fetch";
 import Image from "next/image";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/firebase";
+import toast from "react-hot-toast";
+
+interface ActiveItem {
+    [key: string]: {
+      id: number;
+      name: string;
+    };
+  }
 
 export default function BookLookup() {
     const [reflectMode, setReflectMode] = useState(false);
@@ -52,12 +62,12 @@ export default function BookLookup() {
     {
       name: "ISBN",
       icon: <ScanBarcode strokeWidth={1} />,
-      value: data?.isbn[0],
+      value: data?.isbn[0] || "",
     },
     {
       name: "Year",
       icon: <CalendarDays strokeWidth={1} />,
-      value: data?.first_publish_year,
+      value: data?.first_publish_year || "",
     },
   ];
   const dropdownItems = [
@@ -100,19 +110,66 @@ export default function BookLookup() {
       ],
     },
   ];
+  const [activeItem, setActiveItem] = useState<ActiveItem>({});
   const [ pagesRead, setPagesRead ] = useState(0)
+  const [ myRating, setMyRating ] = useState(0)
+  const handleSubmit = async (e: any) => {
+    e.preventDefault() 
+    const bookData = {
+    title: data?.title,
+    author: data?.author_name[0] || "",
+    subject: data?.subtitle || extra?.subtitle || "",
+    pages: data?.number_of_pages_median || 0,
+    communityRating: data?.ratings_average || 0,
+    isbn: data?.isbn[0] || "",
+    yearPublished: data?.first_publish_year || "",
+    cover: `https://covers.openlibrary.org/b/id/${data?.cover_i}-L.jpg` || "",
+    myRating: myRating || "",
+    status: activeItem?.Status?.name || "",
+    bookshelf: activeItem?.Bookshelf?.name || "",
+    progress: pagesRead || 0,
+    description: extra?.description?.value?.replace(/^"|"$/g, '') || ""
+    }
+    try {
+        await addDoc(collection(db, "addedBooks"), {
+            ...bookData
+        })
+    } catch(err) {
+        console.error("Error saving the looked up book to the database" + err)
+        toast.error('Failed to Save!', {
+            style: {
+              border: '1px solid #5C493E',
+              padding: '16px',
+              color: '#5C493E',
+            }
+          });
+    } finally {
+        toast.success('Saved!', {
+            style: {
+              border: '1px solid #5C493E',
+              padding: '16px',
+              color: '#5C493E',
+            },
+            iconTheme: {
+              primary: '#5C493E',
+              secondary: '#FCFAF8',
+            },
+          });
+    }
+  }
   return (
     <>
+    {/* <button onClick={() => console.log(myRating)}>test</button> */}
       <div className="w-full justify-center flex">
         <div className="p-4 w-fit">
-          <form onSubmit={() => {}} className="flex flex-col gap-4 w-fit">
+          <form id="booklookup" onSubmit={handleSubmit} className="flex flex-col gap-4 w-fit">
             <div className="flex gap-4">
               <div className="flex flex-col gap-2">
                 {data?.cover_i ? (
                     <Image src={`https://covers.openlibrary.org/b/id/${data?.cover_i}-L.jpg`} alt="Book cover" width={120} height={160} className="border shadow-custom border-brown rounded-[4px] flex-shrink-0 bg-beige h-[160px] md:w-[120px]"/>
                 ) : <Placeholder />}
-                <Rating className="text-[#5C493E]" name="book-rating" defaultValue={0} precision={0.5} />
-                <Dropdown data={dropdownItems} />
+                <Rating className="text-[#5C493E]" name="book-rating" defaultValue={0} precision={0.5} value={myRating} onChange={(e, value) => setMyRating(value)} />
+                <Dropdown data={dropdownItems} activeItem={activeItem} setActiveItem={setActiveItem} />
                 <ReadingProgress onChange={setPagesRead} percentage={Math.min(pagesRead / (data?.number_of_pages_median || 1), 1)} />
               </div>
               <div className="">
@@ -142,14 +199,14 @@ export default function BookLookup() {
                       <input value={item.value} className="border-b outline-none border-brown/30 w-full col-span-2 mt-[-8px]" readOnly/>
                     </div>
                   ))}
-                  <button type="button" className="text-brown flex gap-1 items-center self-end">
+                  {/* <button type="button" className="text-brown flex gap-1 items-center self-end">
                     <PlusCircleIcon
                       strokeWidth={1}
                       size={20}
                       className="mb-[4px]"
                     />
                     Add custom field
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -160,14 +217,17 @@ export default function BookLookup() {
                 readOnly
               />
             </div>
-              <button
+            <div className="flex justify-between gap-4">
+              {/* <button
                 type="button"
                 onClick={() => setReflectMode((prev) => !prev)}
                 className="flex items-center gap-2"
               >
                 <PenLine size={20} strokeWidth={1} />
                 Reflect on the book
-              </button>
+              </button> */}
+              {/* <button type="submit">Save</button> */}
+            </div>
           </form>
         </div>
         {reflectMode && (
@@ -176,6 +236,11 @@ export default function BookLookup() {
             </div>
         )}
       </div>
+      <div className="flex pb-4 items-center">
+            <div className="border-b border-brown w-full h-[2px]"></div>
+            <button type="submit" form="booklookup" className="rounded-full w-[64px] h-[64px] whitespace-nowrap border border-brown flex items-center justify-center p-4 hover:bg-brown/10 cursor-pointer transition-all"><div className=""><SaveIcon size={32} strokeWidth={1} /></div></button>
+            <div className="border-b border-brown w-full h-[2px]"></div>
+        </div>
     </>
   );
 }

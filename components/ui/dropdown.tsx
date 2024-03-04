@@ -13,19 +13,12 @@ interface DropdownItem {
   items: Item[];
 }
 
-interface ActiveItem {
-  [key: string]: {
-    id: number;
-    name: string;
-  };
-}
 
-export default function Dropdown({ data }: { data: DropdownItem[] }) {
+export default function Dropdown({ data, activeItem, setActiveItem }: any) {
   const [expandDropdown, setExpandDropdown] = useState<string | null>(null);
-  const [activeItem, setActiveItem] = useState<ActiveItem>({});
 
   const handleSetActiveItem = ({ parentId, childId, childName }: { parentId: string; childId: number; childName: string }) => {
-    setActiveItem((prev) => ({
+    setActiveItem((prev: any) => ({
       ...prev,
       [parentId]: { id: childId, name: childName },
     }));
@@ -34,7 +27,7 @@ export default function Dropdown({ data }: { data: DropdownItem[] }) {
   return (
     <>
       <div className="flex flex-col gap-4">
-        {data?.map((item, index) => (
+        {data?.map((item: any, index: number) => (
           <div key={index}>
             <div
               onClick={() => {
@@ -55,7 +48,7 @@ export default function Dropdown({ data }: { data: DropdownItem[] }) {
               className={`${expandDropdown !== item.name && 'hidden'} flex flex-col p-1 w-[136px] rounded-[4px] border border-brown mt-2 absolute z-10 bg-white shadow-custom`}
             >
               {expandDropdown === item.name &&
-                item.items.map((subItem) => (
+                item.items.map((subItem: any) => (
                   <div
                     onClick={() => handleSetActiveItem({ parentId: item.name, childId: subItem.id, childName: subItem.name })}
                     key={subItem.id}
