@@ -61,7 +61,8 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        "custom": "0px 4px 2px 0px rgba(243, 234, 234, 1)"
+        "custom": "0px 4px 2px 0px rgba(243, 234, 234, 1)",
+        "popup": "8px 8px 30px 20px rgba(243, 234, 234, 1), -8px -8px 30px 20px rgba(243, 234, 234, 1)"
       },
       keyframes: {
         "accordion-down": {
