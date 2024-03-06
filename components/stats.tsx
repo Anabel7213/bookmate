@@ -5,6 +5,12 @@ import { CalendarSearchIcon } from "lucide-react"
 import { collection, getDocs, query } from "firebase/firestore"
 import { db } from "@/firebase"
 
+type StatsItem = {
+    name: string;
+    value: string | number; // Can be both string or number
+    denotion?: string; // Optional property
+  };
+
 export default function Stats() {
     const [ data, setData ] = useState(null)
     useEffect(() => {
@@ -57,7 +63,7 @@ export default function Stats() {
             if (item.name === "Pages Read") {
               return { ...item, value: pagesRead };
             } else if (item.name === "Hours Read") {
-              return { ...item, value: Math.round(hoursRead)}; // Keep two decimal places for hours
+              return { ...item, value: Math.round(hoursRead)};
             } else if (item.name === "Favorite Author") {
                 return { ...item, value: favoriteAuthor.name };
               } else if (item.name === "Favorite Genre") {
@@ -72,7 +78,7 @@ export default function Stats() {
       }, []);
       
       
-    const [ statsItems, setStatsItems ] = useState([
+    const [ statsItems, setStatsItems ] = useState<StatsItem[]>([
         {
             name: "Pages Read",
             value: 0,
