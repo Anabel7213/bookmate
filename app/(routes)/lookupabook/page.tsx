@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function LookupBook() {
   return (
     <>
-      <div className="flex justify-between gap-4 items-center">
+      <div className="flex p-4 justify-between gap-4 items-center">
         <Link href="/">
           <Image
-            className="p-4"
+            className=""
             src="/logo.svg"
             width={200}
             height={200}

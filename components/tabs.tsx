@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Menu from "./menu"
 
-export default function Tabs() {
+export default function Tabs({count, activeTab, setActiveTab}) {
     const tabs = [
         {
             name: "To read",
@@ -15,8 +15,6 @@ export default function Tabs() {
             name: "Read",
         }
     ]
-    const [ activeTab, setActiveTab ] = useState(0)
-    const [ count, setCount ] = useState(0)
     return (
         <>
         <div className="flex justify-between gap-4 items-center w-full">
@@ -24,7 +22,7 @@ export default function Tabs() {
             {tabs.map((tab, i) => (
                 <button onClick={() => {setActiveTab(i)}} key={i} className={`${activeTab === i ? "border-b border-brown p-1" : "p-1 border-b border-transparent"} cursor-pointer transition-all flex items-center gap-1`}>
                     {tab.name}
-                    <span>&#40;{count}&#41;</span>
+                    <span>&#40;{count[i]}&#41;</span>
                 </button>
             ))}
         </div>
