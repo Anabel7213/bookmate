@@ -1,21 +1,29 @@
-import { ChevronsUpDown, BookmarkPlus, Bookmark, BookmarkCheck, BookmarkX } from 'lucide-react';
-import { useState } from 'react';
+import { ChevronsUpDown } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
-// Assuming you have a similar structure for your data prop
 interface Item {
   id: number;
   name: string;
   icon?: JSX.Element;
 }
 
-interface DropdownItem {
-  name: string;
-  items: Item[];
-}
-
-
 export default function Dropdown({ data, activeItem, setActiveItem }: any) {
   const [expandDropdown, setExpandDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+       setExpandDropdown(null); 
+    }
+  };
+  useEffect(() => {
+    if (expandDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => document.removeEventListener('mousedown', handleClickOutside); 
+  }, [expandDropdown]);
 
   const handleSetActiveItem = ({ parentId, childId, childName }: { parentId: string; childId: number; childName: string }) => {
     setActiveItem((prev: any) => ({
@@ -26,7 +34,7 @@ export default function Dropdown({ data, activeItem, setActiveItem }: any) {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div ref={dropdownRef} className="flex flex-col gap-4">
         {data?.map((item: any, index: number) => (
           <div key={index}>
             <div

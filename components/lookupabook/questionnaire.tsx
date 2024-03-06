@@ -81,10 +81,10 @@ export default function Questionnaire({
   };
   return (
     <>
-      <div className="fixed text-brown w-fit shadow-popup self-center bg-white rounded-[4px] border border-brown p-4">
+      <div className="w-full md:w-[600px] fixed text-brown shadow-popup self-center bg-white rounded-[4px] border border-brown p-8">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-6 min-w-[500px]"
+          className="flex flex-col gap-6"
         >
           <div className="flex justify-between gap-4 items-center">
             <div className="flex flex-col gap-4 items-end">

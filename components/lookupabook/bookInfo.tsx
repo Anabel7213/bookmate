@@ -1,5 +1,6 @@
 import { bookLookupFields } from "@/dataPoints";
-import { Search } from "lucide-react";
+import { PencilLine, Search } from "lucide-react";
+import { useState } from "react";
 
 export default function BookAutoPulledUpInfo({
   search,
@@ -47,18 +48,27 @@ export default function BookAutoPulledUpInfo({
   );
 }
 
-export function BookDescription({ extra }: any) {
+export function BookDescription({ extra, customDescription, setCustomDescription }: any) {
+  const [ edit, setEdit ] = useState(false)
   return (
     <>
       <div className="flex rounded-[4px] border border-brown min-h-[190px]">
+        <div className="w-full flex justify-between p-4">
         <textarea
-          value={
-            extra?.description?.value?.replace(/^"|"$/g, "") ||
-            "If available the book's description will appear here."
+          placeholder={edit ? "Describe what this book is about..." : "If available, the book's description will appear here, alternatively you can write your own by clicking on the pencil icon..."}
+          value={edit ? customDescription :
+            extra?.description?.value?.replace(/^"|"$/g, "") || ""
           }
-          className="w-full outline-none resize-none rounded-[4px] p-4 text-brown"
-          readOnly
+          onChange={(e) => setCustomDescription(e.target.value)}
+          className="w-full outline-none resize-none rounded-[4px] text-brown"
+          readOnly={!edit}
         />
+        {!edit && (
+        <button className="h-fit w-fit" onClick={(e) => {e.preventDefault(); setEdit(prev => !prev)}} >
+          <PencilLine size={20} strokeWidth={1} />
+        </button>
+        )}
+        </div>
       </div>
     </>
   );

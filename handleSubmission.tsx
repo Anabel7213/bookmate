@@ -1,10 +1,12 @@
 import { addDoc, collection } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { db } from "./firebase";
+import { v4 as uuidv4 } from "uuid"
 
-export default async function SubmitBookData(e, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId) {
+export default async function SubmitBookData(e, customDescription, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId) {
     e.preventDefault(); 
         const bookData = {
+          id: uuidv4(),
           title: data?.title,
           author: data?.author_name[0] || "",
           subject: data?.subtitle || extra?.subtitle || "",
@@ -17,7 +19,7 @@ export default async function SubmitBookData(e, data, extra, myRating, activeIte
           status: activeItem?.Status?.name || "",
           bookshelf: activeItem?.Bookshelf?.name || "",
           progress: pagesRead || 0,
-          description: extra?.description?.value?.replace(/^"|"$/g, "") || "",
+          description: customDescription || extra?.description?.value?.replace(/^"|"$/g, "") || "",
         };
         const aggregatedData = {
           ...bookData,
@@ -26,7 +28,7 @@ export default async function SubmitBookData(e, data, extra, myRating, activeIte
         };
         try {
           const bookRef = await addDoc(
-            collection(db, "addedBooks"),
+            collection(db, "books"),
             aggregatedData
           );
           setBooKRefId(bookRef.id);

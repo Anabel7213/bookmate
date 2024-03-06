@@ -26,6 +26,7 @@ export default function BookLookup() {
   const [myRating, setMyRating] = useState(0);
   const [bookRefId, setBooKRefId] = useState("");
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [customDescription, setCustomDescription] = useState("")
   const [freeFormState, setFreeFormState] = useState({});
   const [questionnaireState, setQuestionnaireState] = useState({
     selectedType: "",
@@ -47,7 +48,7 @@ export default function BookLookup() {
         <div className="p-4 w-fit">
           <form
             id="booklookup"
-            onSubmit={(e) => SubmitBookData(e, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId)}
+            onSubmit={(e) => SubmitBookData(e, customDescription, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId)}
             className="flex flex-col gap-4 w-fit"
           >
             <div className="flex gap-4">
@@ -69,7 +70,7 @@ export default function BookLookup() {
                 extra={extra}
               />
             </div>
-            <BookDescription extra={extra} />
+            <BookDescription customDescription={customDescription} setCustomDescription={setCustomDescription} extra={extra} />
           </form>
         </div>
         {showQuestionnaire && (
