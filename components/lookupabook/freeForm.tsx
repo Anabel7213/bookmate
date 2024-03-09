@@ -28,7 +28,7 @@ export default function FreeForm({ onClose, onFreeFormChange, freeFormData }) {
     onFreeFormChange(updatedFormData);
   };
   return (
-    <div className="w-full md:w-[600px] text-brown fixed backdrop-blur-xl shadow-popup self-center bg-white rounded-[4px] border border-brown p-8">
+    <div className="w-full md:w-[600px] mb-6 text-brown fixed backdrop-blur-xl shadow-popup self-center bg-white rounded-[4px] border border-brown p-8">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <div className="flex justify-between">

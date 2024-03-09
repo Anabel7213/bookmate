@@ -14,11 +14,12 @@ export default function BookDetails({data, myRating, setMyRating, dropdownItems,
             alt="Book cover"
             width={120}
             height={160}
-            className="border shadow-custom border-brown rounded-[4px] flex-shrink-0 bg-beige h-[160px] md:w-[140px]"
+            className="border object-fill shadow-custom border-brown rounded-[4px] flex-shrink-0 bg-beige h-[160px] md:w-[140px]"
           />
         ) : (
           <Placeholder width="w-full" />
         )}
+        {/* <button type="button" onClick={() => console.log(myRating)}>test</button> */}
         <Rating
           className="text-[#5C493E] self-center"
           name="book-rating"

@@ -60,11 +60,11 @@ export default function Home() {
         <div className="md:grid md:grid-cols-3 gap-4 flex flex-col">
           <div className="flex flex-col gap-4 col-span-2">
             <Tabs count={count} activeTab={activeTab} setActiveTab={setActiveTab} />
-            {data ? ( 
+            {data !== null ? ( 
               <div className="md:flex gap-2 grid grid-cols-3 items-center md:flex-wrap col-span-2">
-                {data.filter(filterBooksByStatus).map((item) => (
-                  <div key={item.id} onClick={() => {}}>
-                   <Image src={item.cover} width={120} height={160} alt={"Book cover"} className="w-[120px] h-[160px] object-fit rounded-[4px] shadow-custom border cursor-pointer flex-shrink-0 border-brown"/>
+                {data?.filter(filterBooksByStatus).map((item) => (
+                  <div key={item.id} onClick={() => {}} className="">
+                   <Image src={item.cover} width={120} height={160} alt={"Book cover"} className="w-[124px] h-[160px] object-cover rounded-[4px] shadow-custom border cursor-pointer flex-shrink-0 border-brown"/>
                   </div>
                 ))}
               </div>

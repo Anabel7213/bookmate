@@ -81,7 +81,7 @@ export default function Questionnaire({
   };
   return (
     <>
-      <div className="w-full md:w-[600px] fixed text-brown shadow-popup self-center bg-white rounded-[4px] border border-brown p-8">
+      <div className="w-full md:w-[600px] fixed text-brown shadow-popup mb-8 self-center bg-white rounded-[4px] border border-brown p-8">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-6"

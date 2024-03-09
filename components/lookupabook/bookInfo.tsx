@@ -36,7 +36,7 @@ export default function BookAutoPulledUpInfo({
                 <h1>{item.name}</h1>
               </div>
               <input
-                value={item.value}
+                value={item?.name === "Rating" ? item?.value.toFixed(1) : item?.value}
                 className="border-b outline-none border-brown/30 w-full col-span-2 mt-[-8px]"
                 readOnly
               />
