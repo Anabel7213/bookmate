@@ -9,6 +9,8 @@ import BookDetails from "./bookDetails";
 import BookAutoPulledUpInfo, { BookDescription } from "./bookInfo";
 import SaveButtons from "./saveButtons";
 import SubmitBookData from "@/handleSubmission";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
 
 interface ActiveItem {
   [key: string]: {
@@ -42,13 +44,17 @@ export default function BookLookup() {
   const handleFreeFormChange = (updatedFreeFormData) => {
     setFreeFormState(updatedFreeFormData);
   }; 
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 20),
+  })
   return (
     <>
       <div className="w-full justify-center flex">
         <div className="p-4 w-fit">
           <form
             id="booklookup"
-            onSubmit={(e) => SubmitBookData(e, customDescription, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId)}
+            onSubmit={(e) => SubmitBookData(e, customDescription, date, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId)}
             className="flex flex-col gap-4 w-fit"
           >
             <div className="flex gap-4">
@@ -66,6 +72,8 @@ export default function BookLookup() {
                 fetch={fetch}
                 search={search}
                 setSearch={setSearch}
+                date={date}
+                setDate={setDate}
                 data={data}
                 extra={extra}
               />

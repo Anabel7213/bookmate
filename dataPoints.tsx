@@ -11,39 +11,40 @@ import {
   Star,
 } from "lucide-react";
 interface BookLookupFieldsProps {
-  data: any;
-  extra: any;
+  data?: any;
+  extra?: any;
+  book?: any
 }
-export const bookLookupFields = ({ data, extra }: BookLookupFieldsProps) => [
+export const bookLookupFields = ({ data, extra, book }: BookLookupFieldsProps) => [
   {
     name: "Author",
     icon: <BookUser strokeWidth={1} />,
-    value: data?.author_name[0] || "",
+    value: data?.author_name[0] || book?.author || "",
   },
   {
     name: "Subject",
     icon: <BookOpenText strokeWidth={1} />,
-    value: data?.subtitle || extra?.subtitle || "",
+    value: data?.subtitle || extra?.subtitle || book?.subject || "",
   },
   {
     name: "Pages",
     icon: <NotepadText strokeWidth={1} />,
-    value: data?.number_of_pages_median || "",
+    value: data?.number_of_pages_median || book?.pages || "",
   },
   {
     name: "Rating",
     icon: <Star strokeWidth={1} />,
-    value: data?.ratings_average || "",
+    value: data?.ratings_average || book?.communityRating || "",
   },
   {
     name: "ISBN",
     icon: <ScanBarcode strokeWidth={1} />,
-    value: data?.isbn[0] || "",
+    value: data?.isbn[0] || book?.isbn || "",
   },
   {
     name: "Year",
     icon: <CalendarDays strokeWidth={1} />,
-    value: data?.first_publish_year || "",
+    value: data?.first_publish_year || book?.yearPublished || "",
   },
 ];
 

@@ -3,10 +3,11 @@ import toast from "react-hot-toast";
 import { db } from "./firebase";
 import { v4 as uuidv4 } from "uuid"
 
-export default async function SubmitBookData(e, customDescription, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId) {
+export default async function SubmitBookData(e, date, customDescription, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId) {
     e.preventDefault(); 
         const bookData = {
           id: uuidv4(),
+          date: date || { from: "", to: "" },
           title: data?.title,
           author: data?.author_name[0] || "",
           subject: data?.subtitle || extra?.subtitle || "",

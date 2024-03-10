@@ -1,10 +1,13 @@
 import { bookLookupFields } from "@/dataPoints";
 import { PencilLine, Search } from "lucide-react";
 import { useState } from "react";
+import { DatePicker } from "../ui/datePicker";
 
 export default function BookAutoPulledUpInfo({
   search,
   setSearch,
+  date,
+  setDate,
   data,
   extra,
   fetch,
@@ -36,12 +39,15 @@ export default function BookAutoPulledUpInfo({
                 <h1>{item.name}</h1>
               </div>
               <input
-                value={item?.name === "Rating" ? item?.value.toFixed(1) : item?.value}
+                value={item?.name === "Rating" ? (item?.value ? item.value.toFixed(1) : "") : item?.value}
                 className="border-b outline-none border-brown/30 w-full col-span-2 mt-[-8px]"
                 readOnly
               />
             </div>
           ))}
+        </div>
+        <div>
+          <DatePicker date={date} setDate={setDate}/>
         </div>
       </div>
     </>

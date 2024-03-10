@@ -9,6 +9,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const tabs = [
@@ -42,6 +43,7 @@ export default function Home() {
     return book.status === statusMapping[activeTab];
   };
 
+  const router = useRouter()
   return (
     <>
       <div className="flex items-center justify-between gap-4 p-4">
@@ -63,7 +65,7 @@ export default function Home() {
             {data !== null ? ( 
               <div className="md:flex gap-2 grid grid-cols-3 items-center md:flex-wrap col-span-2">
                 {data?.filter(filterBooksByStatus).map((item) => (
-                  <div key={item.id} onClick={() => {}} className="">
+                  <div onClick={() => router.push(`/mybooks/${item.id}`)} key={item.id} className="">
                    <Image src={item.cover} width={120} height={160} alt={"Book cover"} className="w-[124px] h-[160px] object-cover rounded-[4px] shadow-custom border cursor-pointer flex-shrink-0 border-brown"/>
                   </div>
                 ))}

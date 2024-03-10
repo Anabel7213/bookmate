@@ -19,17 +19,34 @@ export default function Stats() {
           const querySnapshot = await getDocs(q);
           const fetchedData = [];
           let pagesRead = 0; // Initialize pages read counter
+          let totalDaysReading = 0;
       
           querySnapshot.forEach((doc) => {
             const data = doc.data();
             fetchedData.push({ id: doc.id, ...data });
             if (data.status === "Read" || data.status === "Reading") {
               pagesRead += data.progress; // Sum up progress for "Read" books
+
+              if (data.description && data.description.from && data.description.to) {
+                const startDate = data.description.from.toDate();
+                const endDate = data.description.to.toDate();
+          
+                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) { // Check for valid dates
+                  const timeDifference = endDate.getTime() - startDate.getTime();
+                  const daysToRead = timeDifference / (1000 * 3600 * 24);
+                  totalDaysReading += daysToRead;
+                } else {
+                  console.log("Invalid dates for book:", data); // Log if dates are invalid
+                }
+              }
             }
           });
 
+          const totalBooksRead = fetchedData.filter(book => book.status === "Read").length;
+          const readingPace = totalBooksRead > 0 ? totalDaysReading / totalBooksRead : 0;
+
           const wordsRead = pagesRead * 275; // Calculate total words read based on pages
-            const hoursRead = wordsRead / (238 * 60); // Calculate hours read (238 wpm, 60 minutes per hour)
+          const hoursRead = wordsRead / (238 * 60); // Calculate hours read (238 wpm, 60 minutes per hour)
       
           setData(fetchedData);
 
@@ -68,6 +85,8 @@ export default function Stats() {
                 return { ...item, value: favoriteAuthor.name };
               } else if (item.name === "Favorite Genre") {
                 return { ...item, value: favoriteGenre };
+              } else if (item.name === "Reading Pace") {
+                return { ...item, value: Math.round(readingPace) }; 
               }
               return item;
           });
