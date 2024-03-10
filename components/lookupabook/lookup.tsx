@@ -55,10 +55,13 @@ export default function BookLookup() {
           <form
             id="booklookup"
             onSubmit={(e) => SubmitBookData(e, customDescription, date, data, extra, myRating, activeItem, pagesRead, questionnaireState, freeFormState, setBooKRefId)}
-            className="flex flex-col gap-4 w-fit"
+            className="flex flex-col gap-4 w-full md:w-fit"
           >
-            <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row md:gap-4">
               <BookDetails
+              search={search}
+              setSearch={setSearch}
+              fetch={fetch}
                 data={data}
                 myRating={myRating}
                 setMyRating={setMyRating}

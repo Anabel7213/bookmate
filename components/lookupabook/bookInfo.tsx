@@ -15,7 +15,7 @@ export default function BookAutoPulledUpInfo({
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between gap-4 items-center">
+        <div className="hidden md:flex justify-between gap-4 items-center">
           <input
             type="text"
             name="title"
@@ -40,7 +40,7 @@ export default function BookAutoPulledUpInfo({
               </div>
               <input
                 value={item?.name === "Rating" ? (item?.value ? item.value.toFixed(1) : "") : item?.value}
-                className="border-b outline-none border-brown/30 w-full col-span-2 mt-[-8px]"
+                className="border-b outline-none border-brown/30 md:w-full col-span-2 mt-[-8px]"
                 readOnly
               />
             </div>
